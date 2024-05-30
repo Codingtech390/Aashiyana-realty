@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import Logo from "../assets/images/logo2.png";
+import Logo from "../assets/images/logo.svg";
 
 export default function Header() {
   const location = useLocation();
@@ -16,18 +16,18 @@ export default function Header() {
     <div className="bg-white border-b shadow-sm sticky top-0 z-50">
       <header className="flex justify-between items-center px-3 max-w-6xl mx-auto">
         <div className="">
-          <img
+        <img
             src={Logo}
             alt="logo"
-            className="h-12 cursor-pointer object-cover"
+            className="h-7 cursor-pointer"
             onClick={() => navigate("/")}
           />
         </div>
         <div className="">
           <ul className="flex space-x-10">
-            <li
+          <li
               className={`cursor-pointer py-3 text-sm font-semibold text-gray-400 border-b-[3px] border-b-transparent ${
-                pathMatchRoute("/") && "text-black border-b-red-500"
+                pathMatchRoute("/") && "!text-black !border-b-red-500"
               }`}
               onClick={() => navigate("/")}
             >
@@ -35,7 +35,7 @@ export default function Header() {
             </li>
             <li
               className={`cursor-pointer py-3 text-sm font-semibold text-gray-400 border-b-[3px] border-b-transparent ${
-                pathMatchRoute("/offers") && "text-black border-b-red-500"
+                pathMatchRoute("/offers") && "!text-black !border-b-red-500"
               }`}
               onClick={() => navigate("/offers")}
             >
@@ -43,7 +43,7 @@ export default function Header() {
             </li>
             <li
               className={`cursor-pointer py-3 text-sm font-semibold text-gray-400 border-b-[3px] border-b-transparent ${
-                pathMatchRoute("/sign-in") && "text-black border-b-red-500"
+                pathMatchRoute("/sign-in") && "!text-black !border-b-red-500"
               }`}
               onClick={() => navigate("/sign-in")}
             >
