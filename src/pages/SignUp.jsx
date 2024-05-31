@@ -1,7 +1,17 @@
 import React, { useState } from "react";
-import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
+import { db } from "../firebase";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+
 import OAuth from "../components/OAuth";
+import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
+import { toast } from "react-toastify";
 
 export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
@@ -11,12 +21,47 @@ export default function SignUp() {
     password: "",
   });
   const { name, email, password } = formData;
+  const navigate = useNavigate();
 
+  // On Input Field Change
   function onChange(e) {
     setFormData((prevState) => ({
       ...prevState,
       [e.target.id]: e.target.value,
     }));
+  }
+
+  // Handle Form Submit
+  async function handleFormSubmit(e) {
+    e.preventDefault();
+
+    try {
+      const auth = getAuth();
+      const userCredentials = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      updateProfile(auth.currentUser, {
+        displayName: name,
+      });
+
+      const user = userCredentials.user;
+
+      // Remove the password field before saving it to firebase db.
+      const formDataCopy = { ...formData };
+      delete formDataCopy.password;
+
+      // get the timestamp before saving it to firebase db
+      formDataCopy.timestamp = serverTimestamp();
+
+      // Add the user to db and navigate it to the homepage.
+      await setDoc(doc(db, "users", user.uid), formDataCopy);
+      toast.success("You have successfully signed up!");
+      navigate("/");
+    } catch (error) {
+      toast.error("Oops! Something went wrong during registration");
+    }
   }
 
   return (
@@ -31,7 +76,7 @@ export default function SignUp() {
           />
         </div>
         <div className="w-full md:w-[67%] lg:w-[40%] lg:ml-20">
-          <form>
+          <form onSubmit={handleFormSubmit}>
             <input
               type="text"
               id="name"
