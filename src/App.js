@@ -7,6 +7,7 @@ import Profile from "./pages/Profile";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Offers from "./pages/Offers";
+import CreateListing from "./pages/CreateListing";
 import ForgotPassword from "./pages/ForgotPassword";
 
 import Header from "./components/Header";
@@ -27,6 +28,7 @@ function App() {
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/offers" element={<Offers />} />
+          <Route path="/create-listing" element={<CreateListing />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
         </Routes>
       </Router>
